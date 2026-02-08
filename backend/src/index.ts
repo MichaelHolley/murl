@@ -15,6 +15,12 @@ app.post("/shorten", authMiddleware, async (c) => {
     return c.json({ error: "URL is required" }, 400);
   }
 
+  try {
+    new URL(url);
+  } catch (e) {
+    return c.json({ error: "Invalid URL format" }, 400);
+  }
+
   const code = nanoid(6);
   insertUrl(code, url);
 
