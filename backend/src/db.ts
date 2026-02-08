@@ -11,4 +11,14 @@ db.run(`
   )
 `);
 
+export function insertUrl(code: string, url: string) {
+  const query = db.prepare("INSERT INTO urls (code, url) VALUES (?, ?)");
+  return query.run(code, url);
+}
+
+export function getUrlByCode(code: string) {
+  const query = db.prepare("SELECT * FROM urls WHERE code = ?");
+  return query.get(code) as { id: number; code: string; url: string; created_at: string } | null;
+}
+
 export default db;
