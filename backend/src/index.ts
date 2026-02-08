@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { nanoid } from "nanoid";
-import { insertUrl } from "./db";
+import { insertUrl, getUrlByCode } from "./db";
 import { authMiddleware } from "./auth";
 
 const app = new Hono();
@@ -19,6 +19,17 @@ app.post("/shorten", authMiddleware, async (c) => {
   insertUrl(code, url);
 
   return c.json({ code, shortUrl: `http://localhost:3000/${code}` });
+});
+
+app.get("/:code", async (c) => {
+  const code = c.req.param("code");
+  const result = getUrlByCode(code);
+
+  if (!result) {
+    return c.json({ error: "Code not found" }, 404);
+  }
+
+  return c.redirect(result.url, 302);
 });
 
 export default {

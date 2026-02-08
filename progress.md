@@ -9,7 +9,7 @@
 - [x] 9. Create a backend/.env file with API_TOKEN=your-secret-token (Bun reads .env automatically)
 - [x] 10. Create backend/src/index.ts — Hono app entry point, listen on a port (e.g., 3000)
 - [x] 11. Create POST /shorten route — protected by auth middleware, validates JSON body { url: "..." }, generates a short code via nanoid, stores it via db.ts, returns the short URL
-- [ ] 12. Create GET /:code route — public, looks up the code in SQLite, returns 302 redirect or 404
+- [x] 12. Create GET /:code route — public, looks up the code in SQLite, returns 302 redirect or 404
 - [ ] 13. Add input validation on POST /shorten to reject missing or malformed URLs
 - [ ] 14. Add a dev script in backend/package.json: "dev": "bun --watch src/index.ts"
 - [ ] 15. Add a build script in backend/package.json if needed for production: "build": "bun build ./src/index.ts --outdir ./dist --target bun"
