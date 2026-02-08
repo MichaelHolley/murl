@@ -1,6 +1,6 @@
 - [x] 1. In the root directory, create a package.json with "workspaces": ["backend", "client"]
 - [x] 2. Create the backend/ directory
-- [ ] 3. Inside backend/, run bun init to create a package.json (or create it manually)
+- [x] 3. Inside backend/, run bun init to create a package.json (or create it manually)
 - [ ] 4. In backend/, install dependencies: bun add hono nanoid
 - [ ] 5. Create backend/src/ directory
 - [ ] 6. Create backend/src/db.ts — initialize bun:sqlite with a urls table (id INTEGER PRIMARY KEY, code TEXT UNIQUE, url TEXT, created_at TEXT)
