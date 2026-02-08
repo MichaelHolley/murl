@@ -1,13 +1,21 @@
 import { Hono } from "hono";
+import { bearerAuth } from "hono/bearer-auth";
 import { nanoid } from "nanoid";
-import { insertUrl, getUrlByCode } from "./db";
-import { authMiddleware } from "./auth";
+import { getUrlByCode, insertUrl } from "./db";
 
 const app = new Hono();
 
-app.get("/", (c) => c.text("MURL - Minimal URL Shortener"));
+const API_TOKEN = process.env.API_TOKEN;
+const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
 
-app.post("/shorten", authMiddleware, async (c) => {
+if (!API_TOKEN) {
+  console.warn("Warning: API_TOKEN is not set. Authentication will fail.");
+  throw new Error("API_TOKEN environment variable is required");
+}
+
+app.use("/shorten", bearerAuth({ token: API_TOKEN }));
+
+app.post("/shorten", async (c) => {
   const body = await c.req.json();
   const { url } = body;
 
@@ -24,7 +32,7 @@ app.post("/shorten", authMiddleware, async (c) => {
   const code = nanoid(6);
   insertUrl(code, url);
 
-  return c.json({ code, shortUrl: `http://localhost:3000/${code}` });
+  return c.json({ code, shortUrl: `${BASE_URL}/${code}` });
 });
 
 app.get("/:code", async (c) => {
@@ -38,7 +46,4 @@ app.get("/:code", async (c) => {
   return c.redirect(result.url, 302);
 });
 
-export default {
-  port: 3000,
-  fetch: app.fetch,
-};
+export default app;
