@@ -5,7 +5,7 @@
 - [x] 5. Create backend/src/ directory
 - [x] 6. Create backend/src/db.ts — initialize bun:sqlite with a urls table (id INTEGER PRIMARY KEY, code TEXT UNIQUE, url TEXT, created_at TEXT)
 - [x] 7. Export helper functions from db.ts: insertUrl(code, url), getUrlByCode(code)
-- [ ] 8. Create backend/src/auth.ts — Hono middleware that checks Authorization: Bearer <token> against process.env.API_TOKEN, returns 401 on mismatch
+- [x] 8. Create backend/src/auth.ts — Hono middleware that checks Authorization: Bearer <token> against process.env.API_TOKEN, returns 401 on mismatch
 - [ ] 9. Create a backend/.env file with API_TOKEN=your-secret-token (Bun reads .env automatically)
 - [ ] 10. Create backend/src/index.ts — Hono app entry point, listen on a port (e.g., 3000)
 - [ ] 11. Create POST /shorten route — protected by auth middleware, validates JSON body { url: "..." }, generates a short code via nanoid, stores it via db.ts, returns the short URL
