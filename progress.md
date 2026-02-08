@@ -13,5 +13,5 @@
 - [x] 13. Add input validation on POST /shorten to reject missing or malformed URLs
 - [x] 14. Add a dev script in backend/package.json: "dev": "bun --watch src/index.ts"
 - [x] 15. Add a build script in backend/package.json if needed for production: "build": "bun build ./src/index.ts --outdir ./dist --target bun"
-- [ ] 16. Run bun install in the root directory to link workspaces
+- [x] 16. Run bun install in the root directory to link workspaces
 - [ ] 17. Test the server: cd backend && bun run dev, then test the endpoints with curl or Postman
