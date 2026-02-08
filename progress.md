@@ -1,0 +1,17 @@
+- [x] 1. In the root directory, create a package.json with "workspaces": ["backend", "client"]
+- [ ] 2. Create the backend/ directory
+- [ ] 3. Inside backend/, run bun init to create a package.json (or create it manually)
+- [ ] 4. In backend/, install dependencies: bun add hono nanoid
+- [ ] 5. Create backend/src/ directory
+- [ ] 6. Create backend/src/db.ts — initialize bun:sqlite with a urls table (id INTEGER PRIMARY KEY, code TEXT UNIQUE, url TEXT, created_at TEXT)
+- [ ] 7. Export helper functions from db.ts: insertUrl(code, url), getUrlByCode(code)
+- [ ] 8. Create backend/src/auth.ts — Hono middleware that checks Authorization: Bearer <token> against process.env.API_TOKEN, returns 401 on mismatch
+- [ ] 9. Create a backend/.env file with API_TOKEN=your-secret-token (Bun reads .env automatically)
+- [ ] 10. Create backend/src/index.ts — Hono app entry point, listen on a port (e.g., 3000)
+- [ ] 11. Create POST /shorten route — protected by auth middleware, validates JSON body { url: "..." }, generates a short code via nanoid, stores it via db.ts, returns the short URL
+- [ ] 12. Create GET /:code route — public, looks up the code in SQLite, returns 302 redirect or 404
+- [ ] 13. Add input validation on POST /shorten to reject missing or malformed URLs
+- [ ] 14. Add a dev script in backend/package.json: "dev": "bun --watch src/index.ts"
+- [ ] 15. Add a build script in backend/package.json if needed for production: "build": "bun build ./src/index.ts --outdir ./dist --target bun"
+- [ ] 16. Run bun install in the root directory to link workspaces
+- [ ] 17. Test the server: cd backend && bun run dev, then test the endpoints with curl or Postman
