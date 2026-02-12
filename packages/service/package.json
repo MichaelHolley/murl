@@ -1,17 +1,10 @@
 {
-  "name": "backend",
+  "name": "murl-service",
   "module": "index.ts",
   "type": "module",
-  "private": true,
   "scripts": {
     "dev": "bun --watch src/index.ts",
     "build": "bun build ./src/index.ts --outdir ./dist --target bun"
-  },
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
   },
   "dependencies": {
     "hono": "^4.11.9",

@@ -1,11 +1,10 @@
 {
   "name": "murl",
-  "module": "index.ts",
-  "type": "module",
+  "version": "1.0.0",
   "private": true,
+  "type": "module",
   "workspaces": [
-    "backend",
-    "client"
+    "packages/*"
   ],
   "devDependencies": {
     "@types/bun": "latest"
