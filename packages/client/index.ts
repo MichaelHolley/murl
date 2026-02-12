@@ -1,15 +1,14 @@
 #!/usr/bin/env bun
 
-const API_TOKEN = process.env.API_TOKEN;
-const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
-
-if (!API_TOKEN) {
-  console.error("Error: API_TOKEN environment variable is required");
-  console.error("Please set API_TOKEN in your environment or .env file");
-  process.exit(1);
-}
+import { getConfig, hasConfig, runConfigWizard } from "./config";
 
 async function shortenUrl(url: string): Promise<void> {
+  if (!hasConfig()) {
+    await runConfigWizard();
+  }
+
+  const { token: API_TOKEN, baseUrl: BASE_URL } = getConfig();
+
   try {
     // Validate URL format
     try {
@@ -31,11 +30,11 @@ async function shortenUrl(url: string): Promise<void> {
 
     if (!response.ok) {
       const error = await response.json();
-      console.error(`Error: Failed to shorten URL - ${error}`);
+      console.error(`Error: Failed to shorten URL - ${JSON.stringify(error)}`);
       process.exit(1);
     }
 
-    const data = await response.json();
+    const data = (await response.json()) as { shortUrl: string };
     console.log(data.shortUrl);
   } catch (error) {
     if (error instanceof Error) {
@@ -50,18 +49,24 @@ async function shortenUrl(url: string): Promise<void> {
 // Main CLI logic
 const args = process.argv.slice(2);
 
+if (args[0] === "config") {
+  await runConfigWizard();
+  process.exit(0);
+}
+
 if (args.length === 0 || !args[0]) {
-  console.error("Usage: murl <url>");
-  console.error("Example: murl https://example.com");
+  console.log("Usage:");
+  console.log("  murl <url>      Shorten a URL");
+  console.log("  murl config     Configure API token and base URL");
   process.exit(1);
 }
 
 if (args.length > 1) {
-  console.error("Error: Too many arguments. Please provide a single URL.");
-  console.error("Usage: murl <url>");
+  console.error(
+    "Error: Too many arguments. Please provide a single URL or 'config'.",
+  );
   process.exit(1);
 }
 
 const url = args[0];
-
 await shortenUrl(url);
