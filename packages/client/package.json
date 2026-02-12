@@ -1,0 +1,7 @@
+{
+  "name": "murl-client",
+  "bin": {
+    "murl": "./index.ts"
+  },
+  "type": "module"
+}
