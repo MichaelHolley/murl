@@ -1,15 +1,49 @@
 # murl
 
-To install dependencies:
+A self-hosted, lightweight URL shortening system designed for efficiency and ease of use.
+
+## Project Structure
+
+- `packages/service/`: The backend API handling storage and redirection logic.
+- `packages/client/`: A companion CLI tool for interacting with the service.
+
+## Key Technologies
+
+- **[Bun](https://bun.sh/)**: Runtime, package manager, and SQLite driver.
+- **[Hono](https://hono.dev/)**: Fast web framework for the API.
+- **SQLite**: Lightweight database for URL mappings.
+- **Nanoid**: Short, unique, and URL-friendly identifiers.
+- **TypeScript**: Type-safe development.
+
+## Main Features
+
+- **Efficient URL Shortening**: Generate 6-character short codes.
+- **CLI Interaction**: Shorten URLs directly from your terminal.
+- **Secure API**: Protected by Bearer token authentication.
+- **Fast Redirection**: Immediate 302 redirects.
+- **Configuration Wizard**: Easy CLI setup (`murl config`).
+
+## Getting Started
+
+### Installation
 
 ```bash
 bun install
 ```
 
-To run:
+### Running the Service
 
 ```bash
-bun run index.ts
+cd packages/service
+bun dev
 ```
 
-This project was created using `bun init` in bun v1.3.6. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+### Using the CLI
+
+```bash
+cd packages/client
+bun run src/index.ts <url>
+```
+
+---
+Built with Bun.
