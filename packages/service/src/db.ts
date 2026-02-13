@@ -1,6 +1,12 @@
 import { Database } from "bun:sqlite";
 
-const db = new Database("murl.sqlite", { create: true });
+const DATABASE_PATH = process.env.DATABASE_PATH;
+
+if (!DATABASE_PATH) {
+  throw new Error("DATABASE_PATH environment variable is not set");
+}
+
+const db = new Database(DATABASE_PATH, { create: true });
 
 db.run(`
   CREATE TABLE IF NOT EXISTS urls (
@@ -18,7 +24,12 @@ export function insertUrl(code: string, url: string) {
 
 export function getUrlByCode(code: string) {
   const query = db.prepare("SELECT * FROM urls WHERE code = ?");
-  return query.get(code) as { id: number; code: string; url: string; created_at: string } | null;
+  return query.get(code) as {
+    id: number;
+    code: string;
+    url: string;
+    created_at: string;
+  } | null;
 }
 
 export default db;
