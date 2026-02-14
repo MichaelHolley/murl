@@ -56,7 +56,7 @@ if (args[0] === "config") {
 
 if (args.length === 0 || !args[0]) {
   console.log("Usage:");
-  console.log("  murl <url>      Shorten a URL");
+  console.log('  murl "<url>"    Shorten a URL (use quotes for URLs with special characters)');
   console.log("  murl config     Configure API token and base URL");
   process.exit(1);
 }
