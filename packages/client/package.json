@@ -11,10 +11,10 @@
     "url": "https://github.com/MichaelHolley/murl"
   },
   "bin": {
-    "murl": "./index.ts"
+    "murl": "./bin/murl"
   },
   "scripts": {
-    "compile": "bun build index.ts --target=bun --compile --outfile ./bin/murl"
+    "compile": "bun build index.ts --target=bun --compile --minify --sourcemap --outfile ./bin/murl"
   },
   "type": "module",
   "dependencies": {
