@@ -20,7 +20,7 @@ A self-hosted, lightweight URL shortening system designed for efficiency and eas
 - **Efficient URL Shortening**: Generate 6-character short codes.
 - **CLI Interaction**: Shorten URLs directly from your terminal.
 - **Secure API**: Protected by Bearer token authentication.
-- **Fast Redirection**: Immediate 302 redirects.
+- **Fast Redirection**: Immediate redirects.
 - **Configuration Wizard**: Easy CLI setup (`murl config`).
 
 ## Getting Started
