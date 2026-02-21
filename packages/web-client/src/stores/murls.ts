@@ -16,10 +16,13 @@ const [murls, setMurls] = createSignal<Murl[]>([]);
 const [loading, setLoading] = createSignal(false);
 const [error, setError] = createSignal<string | null>(null);
 
+const DEFAULT_SERVICE_URL =
+  import.meta.env.VITE_SERVICE_URL ?? 'http://localhost:3000';
+
 export async function shortenUrl(
   apiToken: string,
   url: string,
-  serviceUrl: string = 'http://localhost:3000',
+  serviceUrl: string = DEFAULT_SERVICE_URL,
 ): Promise<ShortenResult | null> {
   setLoading(true);
   setError(null);
