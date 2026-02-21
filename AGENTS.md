@@ -6,10 +6,11 @@ This document provides context and instructions for AI coding agents working on 
 
 **murl** is a self-hosted, lightweight URL shortening system optimized for performance and developer experience.
 
-- **Stack:** [Bun](https://bun.sh/) (runtime/pkg manager), [Hono](https://hono.dev/) (web framework), [SQLite](https://bun.sh/docs/api/sqlite) (database), [Nanoid](https://github.com/ai/nanoid) (identifiers).
+- **Stack:** [Bun](https://bun.sh/) (runtime/pkg manager), [Hono](https://hono.dev/) (web framework), [SQLite](https://bun.sh/docs/api/sqlite) (database), [Nanoid](https://github.com/ai/nanoid) (identifiers), [SolidJS](https://www.solidjs.com/) (frontend).
 - **Architecture:** Monorepo using Bun Workspaces.
   - `packages/service/`: Backend API for storage and redirection.
   - `packages/cli-client/`: CLI companion tool for user interaction.
+  - `packages/web-client/`: Lightweight SolidJS frontend.
 
 ## Identity & Persona
 
@@ -43,6 +44,10 @@ You are an expert full-stack engineer specialized in TypeScript and the Bun ecos
   - Path: `packages/cli-client/`
   - Run: `bun run src/index.ts <url>`
   - Build: `bun run compile` (compiles to a single binary in `./bin/murl`)
+- **Client (Web):**
+  - Path: `packages/web-client/`
+  - Dev: `bun dev` (runs `vite`)
+  - Build: `bun run build` (builds using `vite build`)
 
 ## Boundaries
 
