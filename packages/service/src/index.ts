@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { bearerAuth } from 'hono/bearer-auth';
+import { cors } from 'hono/cors';
 import { nanoid } from 'nanoid';
 import { getUrlByCode, insertUrl } from './db';
 
@@ -7,11 +8,22 @@ const app = new Hono();
 
 const API_TOKEN = process.env.API_TOKEN;
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN;
 
 if (!API_TOKEN) {
   console.warn('Warning: API_TOKEN is not set. Authentication will fail.');
   throw new Error('API_TOKEN environment variable is required');
 }
+
+if (!ALLOWED_ORIGIN) {
+  throw new Error('ALLOWED_ORIGIN environment variable is required');
+}
+
+app.use('*', cors({
+  origin: ALLOWED_ORIGIN,
+  allowMethods: ['GET', 'POST', 'OPTIONS'],
+  allowHeaders: ['Content-Type', 'Authorization'],
+}));
 
 app.use('/shorten', bearerAuth({ token: API_TOKEN }));
 
