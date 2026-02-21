@@ -50,7 +50,7 @@ export async function shortenUrl(
 
     setMurls((prev) => [murl, ...prev]);
     return result;
-  } catch (e) {
+  } catch (e: Error | unknown) {
     const message = e instanceof Error ? e.message : 'Unknown error';
     setError(message);
     return null;

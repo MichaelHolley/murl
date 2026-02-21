@@ -25,7 +25,7 @@ app.post('/shorten', async (c) => {
 
   try {
     new URL(url);
-  } catch (e) {
+  } catch {
     return c.json({ error: 'Invalid URL format' }, 400);
   }
 

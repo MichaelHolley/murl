@@ -13,7 +13,7 @@ async function shortenUrl(url: string): Promise<void> {
     // Validate URL format
     try {
       new URL(url);
-    } catch (e) {
+    } catch {
       console.error(`Error: Invalid URL format: ${url}`);
       process.exit(1);
     }
@@ -36,7 +36,7 @@ async function shortenUrl(url: string): Promise<void> {
 
     const data = (await response.json()) as { shortUrl: string };
     console.log(data.shortUrl);
-  } catch (error) {
+  } catch (error: Error | unknown) {
     if (error instanceof Error) {
       console.error(`Error: ${error.message}`);
     } else {
