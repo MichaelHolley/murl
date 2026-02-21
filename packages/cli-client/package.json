@@ -1,5 +1,5 @@
 {
-  "name": "cli-client",
+  "name": "murl-cli-client",
   "version": "0.1.0",
   "description": "A self-hosted, lightweight URL shortening system designed for efficiency and ease of use.",
   "author": {
