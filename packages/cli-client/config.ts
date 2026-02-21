@@ -26,7 +26,9 @@ export function getConfig() {
 }
 
 export function hasConfig(): boolean {
-  return config.has('token') && !!config.get('token') && config.has('baseUrl') && !!config.get('baseUrl');
+  return (
+    config.has('token') && !!config.get('token') && config.has('baseUrl') && !!config.get('baseUrl')
+  );
 }
 
 export function getConfigPath(): string {

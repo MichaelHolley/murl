@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 
-import { getConfig, hasConfig, runConfigWizard } from "./config";
+import { getConfig, hasConfig, runConfigWizard } from './config';
 
 async function shortenUrl(url: string): Promise<void> {
   if (!hasConfig()) {
@@ -20,9 +20,9 @@ async function shortenUrl(url: string): Promise<void> {
 
     // Call the backend API
     const response = await fetch(`${BASE_URL}/shorten`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${API_TOKEN}`,
       },
       body: JSON.stringify({ url }),
@@ -40,7 +40,7 @@ async function shortenUrl(url: string): Promise<void> {
     if (error instanceof Error) {
       console.error(`Error: ${error.message}`);
     } else {
-      console.error("Error: An unexpected error occurred");
+      console.error('Error: An unexpected error occurred');
     }
     process.exit(1);
   }
@@ -49,22 +49,20 @@ async function shortenUrl(url: string): Promise<void> {
 // Main CLI logic
 const args = process.argv.slice(2);
 
-if (args[0] === "config") {
+if (args[0] === 'config') {
   await runConfigWizard();
   process.exit(0);
 }
 
 if (args.length === 0 || !args[0]) {
-  console.log("Usage:");
+  console.log('Usage:');
   console.log('  murl "<url>"    Shorten a URL (use quotes for URLs with special characters)');
-  console.log("  murl config     Configure API token and base URL");
+  console.log('  murl config     Configure API token and base URL');
   process.exit(1);
 }
 
 if (args.length > 1) {
-  console.error(
-    "Error: Too many arguments. Please provide a single URL or 'config'.",
-  );
+  console.error("Error: Too many arguments. Please provide a single URL or 'config'.");
   process.exit(1);
 }
 

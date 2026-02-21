@@ -13,10 +13,10 @@
   "bin": {
     "murl": "./bin/murl"
   },
+  "type": "module",
   "scripts": {
     "compile": "bun build index.ts --target=bun --compile --minify --sourcemap --outfile ./bin/murl"
   },
-  "type": "module",
   "dependencies": {
     "@inquirer/prompts": "^8.2.0",
     "conf": "^15.1.0"

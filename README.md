@@ -46,4 +46,5 @@ bun run src/index.ts <url>
 ```
 
 ---
+
 Built with Bun.

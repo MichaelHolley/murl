@@ -1,1 +1,108 @@
 @import 'tailwindcss';
+
+@theme {
+  /* Brutalist color palette — raw, high-contrast, no softness */
+  --color-background: #f0ece3;
+  --color-foreground: #0a0a0a;
+  --color-accent: #ff2d00;
+  --color-accent-hover: #cc2400;
+  --color-border: #0a0a0a;
+  --color-muted: #c8c2b5;
+  --color-success: #00a651;
+  --color-card: #ffffff;
+
+  /* Typography — monospace brutalism */
+  --font-mono: 'Courier New', 'Courier', monospace;
+  --font-sans: 'Arial Black', 'Arial', sans-serif;
+
+  /* Custom shadows */
+  --shadow-brutal: 4px 4px 0px var(--color-border);
+  --shadow-brutal-lg: 6px 6px 0px var(--color-border);
+  --shadow-brutal-accent: 4px 4px 0px var(--color-accent);
+
+  @keyframes flicker {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.85;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    20% {
+      transform: translateX(-4px);
+    }
+    40% {
+      transform: translateX(4px);
+    }
+    60% {
+      transform: translateX(-4px);
+    }
+    80% {
+      transform: translateX(4px);
+    }
+  }
+
+  --animate-slide-up: slide-up 0.25s ease-out;
+  --animate-shake: shake 0.4s ease-out;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-mono);
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: unset;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-card);
+  }
+}
+
+@utility shadow-brutal {
+  box-shadow: var(--shadow-brutal);
+}
+
+@utility shadow-brutal-lg {
+  box-shadow: var(--shadow-brutal-lg);
+}
+
+@utility shadow-brutal-accent {
+  box-shadow: var(--shadow-brutal-accent);
+}
+
+@utility border-brutal {
+  border: 2px solid var(--color-border);
+}
+
+@utility animate-slide-up {
+  animation: var(--animate-slide-up);
+}
+
+@utility animate-shake {
+  animation: var(--animate-shake);
+}

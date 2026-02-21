@@ -2,10 +2,10 @@
   "name": "murl",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "workspaces": [
     "packages/*"
   ],
+  "type": "module",
   "scripts": {
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",

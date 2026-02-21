@@ -1,9 +1,9 @@
-import { Database } from "bun:sqlite";
+import { Database } from 'bun:sqlite';
 
 const DATABASE_PATH = process.env.DATABASE_PATH;
 
 if (!DATABASE_PATH) {
-  throw new Error("DATABASE_PATH environment variable is not set");
+  throw new Error('DATABASE_PATH environment variable is not set');
 }
 
 const db = new Database(DATABASE_PATH, { create: true });
@@ -18,12 +18,12 @@ db.run(`
 `);
 
 export function insertUrl(code: string, url: string) {
-  const query = db.prepare("INSERT INTO urls (code, url) VALUES (?, ?)");
+  const query = db.prepare('INSERT INTO urls (code, url) VALUES (?, ?)');
   return query.run(code, url);
 }
 
 export function getUrlByCode(code: string) {
-  const query = db.prepare("SELECT * FROM urls WHERE code = ?");
+  const query = db.prepare('SELECT * FROM urls WHERE code = ?');
   return query.get(code) as {
     id: number;
     code: string;
