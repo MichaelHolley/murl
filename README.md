@@ -5,7 +5,7 @@ A self-hosted, lightweight URL shortening system designed for efficiency and eas
 ## Project Structure
 
 - `packages/service/`: The backend API handling storage and redirection logic.
-- `packages/client/`: A companion CLI tool for interacting with the service.
+- `packages/cli-client/`: A companion CLI tool for interacting with the service.
 
 ## Key Technologies
 
@@ -41,7 +41,7 @@ bun dev
 ### Using the CLI
 
 ```bash
-cd packages/client
+cd packages/cli-client
 bun run src/index.ts <url>
 ```
 

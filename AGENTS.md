@@ -9,7 +9,7 @@ This document provides context and instructions for AI coding agents working on 
 - **Stack:** [Bun](https://bun.sh/) (runtime/pkg manager), [Hono](https://hono.dev/) (web framework), [SQLite](https://bun.sh/docs/api/sqlite) (database), [Nanoid](https://github.com/ai/nanoid) (identifiers).
 - **Architecture:** Monorepo using Bun Workspaces.
   - `packages/service/`: Backend API for storage and redirection.
-  - `packages/client/`: CLI companion tool for user interaction.
+  - `packages/cli-client/`: CLI companion tool for user interaction.
 
 ## Identity & Persona
 
@@ -40,7 +40,7 @@ You are an expert full-stack engineer specialized in TypeScript and the Bun ecos
   - Path: `packages/service/`
   - Dev: `bun dev` (runs `bun --watch src/index.ts`)
 - **Client (CLI):**
-  - Path: `packages/client/`
+  - Path: `packages/cli-client/`
   - Run: `bun run src/index.ts <url>`
   - Build: `bun run compile` (compiles to a single binary in `./bin/murl`)
 
