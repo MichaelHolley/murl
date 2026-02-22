@@ -8,10 +8,10 @@ import MurlList from './components/MurlList';
 import EmptyState from './components/EmptyState';
 
 const App: Component = () => (
-  <div class="min-h-screen bg-background font-mono">
+  <div class="min-h-screen bg-background font-mono flex flex-col">
     <Header />
 
-    <main class="mx-auto max-w-3xl px-6 py-12">
+    <main class="mx-auto max-w-3xl w-full px-6 py-12 flex-1">
       <ShortenForm />
 
       <Show
