@@ -42,14 +42,14 @@ app.post('/shorten', async (c) => {
   }
 
   const code = nanoid(6);
-  insertUrl(code, url);
+  await insertUrl(code, url);
 
   return c.json({ code, shortUrl: `${BASE_URL}/${code}` });
 });
 
 app.get('/:code', async (c) => {
   const code = c.req.param('code');
-  const result = getUrlByCode(code);
+  const result = await getUrlByCode(code);
 
   if (!result) {
     return c.json({ error: 'Code not found' }, 404);

@@ -1,35 +1,33 @@
-import { Database } from 'bun:sqlite';
+import { SQL } from 'bun';
 
-const DATABASE_PATH = process.env.DATABASE_PATH;
+const DATABASE_URL = process.env.DATABASE_URL;
 
-if (!DATABASE_PATH) {
-  throw new Error('DATABASE_PATH environment variable is not set');
+if (!DATABASE_URL) {
+  throw new Error('DATABASE_URL environment variable is not set');
 }
 
-const db = new Database(DATABASE_PATH, { create: true });
+const sql = new SQL(DATABASE_URL);
 
-db.run(`
+// Ensure the table exists on startup
+await sql`
   CREATE TABLE IF NOT EXISTS urls (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    code TEXT UNIQUE,
-    url TEXT,
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+    id         SERIAL PRIMARY KEY,
+    code       TEXT UNIQUE NOT NULL,
+    url        TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
   )
-`);
+`;
 
-export function insertUrl(code: string, url: string) {
-  const query = db.prepare('INSERT INTO urls (code, url) VALUES (?, ?)');
-  return query.run(code, url);
+export async function insertUrl(code: string, url: string): Promise<void> {
+  await sql`INSERT INTO urls (code, url) VALUES (${code}, ${url})`;
 }
 
-export function getUrlByCode(code: string) {
-  const query = db.prepare('SELECT * FROM urls WHERE code = ?');
-  return query.get(code) as {
-    id: number;
-    code: string;
-    url: string;
-    created_at: string;
-  } | null;
+export async function getUrlByCode(code: string): Promise<{
+  id: number;
+  code: string;
+  url: string;
+  created_at: string;
+} | null> {
+  const rows = await sql`SELECT * FROM urls WHERE code = ${code} LIMIT 1`;
+  return (rows[0] as { id: number; code: string; url: string; created_at: string }) ?? null;
 }
-
-export default db;
