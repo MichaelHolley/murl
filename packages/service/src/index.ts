@@ -25,6 +25,9 @@ app.use('*', cors({
   allowHeaders: ['Content-Type', 'Authorization'],
 }));
 
+// Explicit OPTIONS handler so preflight requests are never caught by /:code redirect
+app.options('*', (c) => c.body(null, 204));
+
 app.use('/shorten', bearerAuth({ token: API_TOKEN }));
 
 app.post('/shorten', async (c) => {
