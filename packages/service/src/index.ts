@@ -7,12 +7,15 @@ import { getUrlByCode, insertUrl } from './db';
 const app = new Hono();
 
 const API_TOKEN = process.env.API_TOKEN;
+const API_TOKEN_MIDDLEWARE_ENABLED =
+  process.env.API_TOKEN_MIDDLEWARE_ENABLED !== 'false';
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN;
 
-if (!API_TOKEN) {
-  console.warn('Warning: API_TOKEN is not set. Authentication will fail.');
-  throw new Error('API_TOKEN environment variable is required');
+if (API_TOKEN_MIDDLEWARE_ENABLED && !API_TOKEN) {
+  throw new Error(
+    'API_TOKEN environment variable is required when API_TOKEN_MIDDLEWARE_ENABLED is true',
+  );
 }
 
 if (!ALLOWED_ORIGIN) {
@@ -25,7 +28,9 @@ app.use('*', cors({
   allowHeaders: ['Content-Type', 'Authorization'],
 }));
 
-app.use('/shorten', bearerAuth({ token: API_TOKEN }));
+if (API_TOKEN_MIDDLEWARE_ENABLED) {
+  app.use('/shorten', bearerAuth({ token: API_TOKEN! }));
+}
 
 app.post('/shorten', async (c) => {
   const body = await c.req.json();

@@ -28,18 +28,35 @@ export async function shortenUrl(
   setError(null);
 
   try {
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+
+    if (apiToken.trim()) {
+      headers.Authorization = `Bearer ${apiToken.trim()}`;
+    }
+
     const response = await fetch(`${serviceUrl}/shorten`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiToken}`,
-      },
+      headers,
       body: JSON.stringify({ url }),
     });
 
     if (!response.ok) {
-      const data = await response.json();
-      throw new Error(data.error ?? `Request failed: ${response.status}`);
+      const text = await response.text();
+
+      if (!text.trim()) {
+        throw new Error(`Request failed: ${response.status}`);
+      }
+
+      try {
+        const data = JSON.parse(text) as { error?: string; message?: string };
+        throw new Error(
+          data.error ?? data.message ?? `Request failed: ${response.status}`,
+        );
+      } catch {
+        throw new Error(text);
+      }
     }
 
     const result: ShortenResult = await response.json();

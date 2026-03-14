@@ -9,7 +9,7 @@ const ShortenForm: Component = () => {
 
   async function handleSubmit(e: Event) {
     e.preventDefault();
-    if (!token().trim() || !url().trim()) return;
+    if (!url().trim()) return;
 
     const result = await shortenUrl(token().trim(), url().trim());
     if (result) {
@@ -41,7 +41,7 @@ const ShortenForm: Component = () => {
         {/* API Token input */}
         <div class="border-2 border-b-0 border-border bg-card p-4">
           <label class="block text-[10px] tracking-widest uppercase text-accent mb-2 font-bold">
-            API TOKEN
+            API TOKEN (OPTIONAL)
           </label>
           <input
             type="password"
@@ -87,7 +87,7 @@ const ShortenForm: Component = () => {
         {/* Submit button */}
         <button
           type="submit"
-          disabled={loading() || !token().trim() || !url().trim()}
+          disabled={loading() || !url().trim()}
           class="w-full border-2 border-border bg-foreground text-card text-sm font-black uppercase tracking-widest py-4 px-6 cursor-pointer transition-all shadow-brutal-accent hover:bg-accent hover:border-accent hover:-translate-x-0.5 hover:-translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed disabled:translate-x-0 disabled:translate-y-0 disabled:shadow-none active:translate-x-1 active:translate-y-1 active:shadow-none"
           style="font-family: var(--font-sans)"
         >
