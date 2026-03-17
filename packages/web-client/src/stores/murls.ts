@@ -16,8 +16,7 @@ const [murls, setMurls] = createSignal<Murl[]>([]);
 const [loading, setLoading] = createSignal(false);
 const [error, setError] = createSignal<string | null>(null);
 
-const DEFAULT_SERVICE_URL =
-  import.meta.env.VITE_SERVICE_URL ?? 'http://localhost:3000';
+const DEFAULT_SERVICE_URL = import.meta.env.VITE_SERVICE_URL ?? 'http://localhost:3000';
 
 export async function shortenUrl(
   apiToken: string,
@@ -51,9 +50,7 @@ export async function shortenUrl(
 
       try {
         const data = JSON.parse(text) as { error?: string; message?: string };
-        throw new Error(
-          data.error ?? data.message ?? `Request failed: ${response.status}`,
-        );
+        throw new Error(data.error ?? data.message ?? `Request failed: ${response.status}`);
       } catch {
         throw new Error(text);
       }

@@ -15,7 +15,10 @@
   },
   "type": "module",
   "scripts": {
-    "compile": "bun build index.ts --target=bun --compile --minify --sourcemap --outfile ./bin/murl"
+    "build": "bun build index.ts --target=bun --compile --minify --sourcemap --outfile ./bin/murl",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint . --fix",
+    "fmt": "oxfmt ."
   },
   "dependencies": {
     "@inquirer/prompts": "^8.2.0",
