@@ -7,8 +7,7 @@ import { getUrlByCode, insertUrl } from './db';
 const app = new Hono();
 
 const API_TOKEN = process.env.API_TOKEN;
-const API_TOKEN_MIDDLEWARE_ENABLED =
-  process.env.API_TOKEN_MIDDLEWARE_ENABLED !== 'false';
+const API_TOKEN_MIDDLEWARE_ENABLED = process.env.API_TOKEN_MIDDLEWARE_ENABLED !== 'false';
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN;
 
@@ -22,11 +21,14 @@ if (!ALLOWED_ORIGIN) {
   throw new Error('ALLOWED_ORIGIN environment variable is required');
 }
 
-app.use('*', cors({
-  origin: ALLOWED_ORIGIN,
-  allowMethods: ['GET', 'POST', 'OPTIONS'],
-  allowHeaders: ['Content-Type', 'Authorization'],
-}));
+app.use(
+  '*',
+  cors({
+    origin: ALLOWED_ORIGIN,
+    allowMethods: ['GET', 'POST', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+  }),
+);
 
 if (API_TOKEN_MIDDLEWARE_ENABLED) {
   app.use('/shorten', bearerAuth({ token: API_TOKEN! }));
