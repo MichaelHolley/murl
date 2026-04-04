@@ -1,0 +1,69 @@
+name: Release CLI
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g. 0.2.0)"
+        required: true
+
+jobs:
+  build:
+    name: Build ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          - bun-darwin-arm64
+          - bun-darwin-x64
+          - bun-linux-arm64
+          - bun-linux-x64
+          - bun-windows-x64
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        working-directory: packages/cli-client
+        run: bun install
+
+      - name: Build
+        working-directory: packages/cli-client
+        run: |
+          bun build index.ts \
+            --compile \
+            --minify \
+            --target=${{ matrix.target }} \
+            --outfile ./dist/murl-${{ matrix.target }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: murl-${{ matrix.target }}
+          path: packages/cli-client/dist/murl-${{ matrix.target }}
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ inputs.version }}
+          name: v${{ inputs.version }}
+          files: dist/murl-*
+          generate_release_notes: true
