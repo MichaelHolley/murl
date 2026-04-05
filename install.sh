@@ -23,6 +23,6 @@ if [[ ! -d "$INSTALL_DIR" ]]; then
   exit 1
 fi
 
-mv /tmp/murl "${INSTALL_DIR}/murl"
+sudo mv /tmp/murl "${INSTALL_DIR}/murl"
 echo "Installed murl ${VERSION} to ${INSTALL_DIR}/murl"
 echo "Run 'murl config' to get started."
