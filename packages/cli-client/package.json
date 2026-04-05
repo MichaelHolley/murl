@@ -15,7 +15,7 @@
   },
   "type": "module",
   "scripts": {
-    "build": "bun build index.ts --target=bun --compile --minify --sourcemap --outfile ./bin/murl",
+    "build": "bun build.ts",
     "lint": "oxlint .",
     "lint:fix": "oxlint . --fix",
     "fmt": "oxfmt ."
