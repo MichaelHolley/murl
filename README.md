@@ -4,9 +4,9 @@ A self-hosted, lightweight URL shortening system designed for efficiency and eas
 
 ## Project Structure
 
-- `packages/service/`: The backend API handling storage and redirection logic.
-- `packages/cli-client/`: A companion CLI tool for interacting with the service.
-- `packages/web-client/`: A lightweight SolidJS-powered web interface.
+- `packages/service/` (`murl-service`): The backend API handling storage and redirection logic.
+- `packages/cli-client/` ([`murl-cli`](https://www.npmjs.com/package/murl-cli)): A companion CLI tool for interacting with the service, published to npm.
+- `packages/web-client/` (`murl-web-client`): A lightweight SolidJS-powered web interface.
 
 ## Key Technologies
 
