@@ -8,7 +8,7 @@ Command-line client for [murl](https://github.com/MichaelHolley/murl), a self-ho
 npm install -g murl-cli
 ```
 
-Requires Node.js 18 or newer.
+Requires Node.js 20 or newer.
 
 ## Usage
 
