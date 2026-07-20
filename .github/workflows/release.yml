@@ -34,7 +34,7 @@ jobs:
 
       - name: Stamp version
         working-directory: packages/cli-client
-        run: npm version ${{ inputs.version }} --no-git-tag-version --allow-same-version
+        run: npm pkg set version=${{ inputs.version }}
 
       - name: Publish to npm
         working-directory: packages/cli-client
