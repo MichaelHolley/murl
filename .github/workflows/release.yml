@@ -19,6 +19,11 @@ jobs:
 
       - uses: oven-sh/setup-bun@v2
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
       - name: Install dependencies
         working-directory: packages/cli-client
         run: bun install
@@ -26,6 +31,16 @@ jobs:
       - name: Build
         working-directory: packages/cli-client
         run: bun build.ts
+
+      - name: Stamp version
+        working-directory: packages/cli-client
+        run: npm version ${{ inputs.version }} --no-git-tag-version
+
+      - name: Publish to npm
+        working-directory: packages/cli-client
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

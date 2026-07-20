@@ -44,9 +44,19 @@ bun dev
 
 ### Using the CLI
 
+Install globally via npm:
+
+```bash
+npm install -g murl-cli
+murl "<url>"
+murl config
+```
+
+Or run from source during development:
+
 ```bash
 cd packages/cli-client
-bun run src/index.ts <url>
+bun run index.ts <url>
 ```
 
 ### Running the Web Client

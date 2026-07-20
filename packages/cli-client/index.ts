@@ -1,5 +1,3 @@
-#!/usr/bin/env bun
-
 import { getConfig, hasConfig, runConfigWizard } from './config';
 
 async function shortenUrl(url: string): Promise<void> {

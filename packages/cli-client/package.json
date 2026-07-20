@@ -1,26 +1,40 @@
 {
-  "name": "murl-cli-client",
+  "name": "murl-cli",
   "version": "0.1.0",
   "description": "A self-hosted, lightweight URL shortening system designed for efficiency and ease of use.",
+  "license": "MIT",
   "author": {
     "name": "Michael Holley",
     "email": "michael.philipp.holley@gmail.com",
     "url": "https://github.com/MichaelHolley"
   },
   "repository": {
-    "url": "https://github.com/MichaelHolley/murl"
+    "url": "https://github.com/MichaelHolley/murl",
+    "directory": "packages/cli-client"
   },
+  "keywords": [
+    "url-shortener",
+    "cli",
+    "murl"
+  ],
   "bin": {
     "murl": "./bin/murl"
+  },
+  "files": [
+    "bin"
+  ],
+  "engines": {
+    "node": ">=18"
   },
   "type": "module",
   "scripts": {
     "build": "bun build.ts",
+    "prepublishOnly": "bun build.ts",
     "lint": "oxlint .",
     "lint:fix": "oxlint . --fix",
     "fmt": "oxfmt ."
   },
-  "dependencies": {
+  "devDependencies": {
     "@inquirer/prompts": "^8.2.0",
     "conf": "^15.1.0"
   }
