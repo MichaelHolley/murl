@@ -1,5 +1,5 @@
 import { build } from "bun";
-import { writeFileSync, chmodSync, mkdirSync } from "fs";
+import { writeFileSync, chmodSync, mkdirSync, copyFileSync } from "fs";
 
 const result = await build({
   entrypoints: ["./index.ts"],
@@ -20,5 +20,8 @@ for (const output of result.outputs) {
   writeFileSync("./bin/murl", text);
   chmodSync("./bin/murl", 0o755);
 }
+
+// npm only auto-includes a LICENSE located at the package root
+copyFileSync("../../LICENSE", "./LICENSE");
 
 console.log("Built ./bin/murl");
