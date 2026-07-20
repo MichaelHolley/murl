@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write
 
     steps:
       - uses: actions/checkout@v4
@@ -23,6 +24,9 @@ jobs:
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
+
+      # trusted publishing (OIDC) requires npm >= 11.5.1
+      - run: npm install -g npm@latest
 
       - name: Install dependencies
         working-directory: packages/cli-client
@@ -39,8 +43,6 @@ jobs:
       - name: Publish to npm
         working-directory: packages/cli-client
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
