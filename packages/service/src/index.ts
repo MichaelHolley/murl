@@ -42,10 +42,15 @@ app.post('/shorten', async (c) => {
     return c.json({ error: 'URL is required' }, 400);
   }
 
+  let parsed: URL;
   try {
-    new URL(url);
+    parsed = new URL(url);
   } catch {
     return c.json({ error: 'Invalid URL format' }, 400);
+  }
+
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+    return c.json({ error: 'Only http and https URLs are allowed' }, 400);
   }
 
   const code = nanoid(6);
