@@ -37,7 +37,7 @@ export async function runConfigWizard() {
   console.log('\n--- murl configuration ---\n');
 
   const token = await password({
-    message: 'Enter your API token (leave blank if your instance has no auth):',
+    message: 'Enter your API token (leave blank if your instance has no auth, or to keep the current one):',
   });
 
   const baseUrl = await input({
@@ -55,8 +55,6 @@ export async function runConfigWizard() {
   const trimmedToken = token.trim();
   if (trimmedToken) {
     config.set('token', trimmedToken);
-  } else {
-    config.delete('token');
   }
   config.set('baseUrl', baseUrl);
 

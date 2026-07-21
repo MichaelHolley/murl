@@ -29,8 +29,14 @@ async function shortenUrl(url: string): Promise<void> {
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      console.error(`Error: Failed to shorten URL - ${JSON.stringify(error)}`);
+      const body = await response.text();
+      let message = body;
+      try {
+        message = JSON.stringify(JSON.parse(body));
+      } catch {
+        // Body wasn't JSON (e.g. a plain-text 401 from the auth middleware); use it as-is.
+      }
+      console.error(`Error: Failed to shorten URL - ${message}`);
       process.exit(1);
     }
 
