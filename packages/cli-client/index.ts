@@ -30,7 +30,7 @@ async function shortenUrl(url: string): Promise<void> {
 
     if (!response.ok) {
       const body = await response.text();
-      let message = body || `${response.status} ${response.statusText}`;
+      let message = body || `HTTP ${response.status}${response.statusText ? ` ${response.statusText}` : ''}`;
       try {
         message = JSON.stringify(JSON.parse(body));
       } catch {
