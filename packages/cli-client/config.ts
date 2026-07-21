@@ -2,7 +2,7 @@ import Conf from 'conf';
 import { input, password } from '@inquirer/prompts';
 
 interface ConfigSchema {
-  token: string;
+  token?: string;
   baseUrl: string;
 }
 
@@ -26,9 +26,7 @@ export function getConfig() {
 }
 
 export function hasConfig(): boolean {
-  return (
-    config.has('token') && !!config.get('token') && config.has('baseUrl') && !!config.get('baseUrl')
-  );
+  return config.has('baseUrl') && !!config.get('baseUrl');
 }
 
 export function getConfigPath(): string {
@@ -39,8 +37,7 @@ export async function runConfigWizard() {
   console.log('\n--- murl configuration ---\n');
 
   const token = await password({
-    message: 'Enter your API token:',
-    validate: (value) => (value.length > 0 ? true : 'Token is required'),
+    message: 'Enter your API token (leave blank if your instance has no auth):',
   });
 
   const baseUrl = await input({
@@ -55,7 +52,12 @@ export async function runConfigWizard() {
     },
   });
 
-  config.set('token', token);
+  const trimmedToken = token.trim();
+  if (trimmedToken) {
+    config.set('token', trimmedToken);
+  } else {
+    config.delete('token');
+  }
   config.set('baseUrl', baseUrl);
 
   console.log(`\n✓ Configuration saved to: ${config.path}`);

@@ -16,13 +16,15 @@ async function shortenUrl(url: string): Promise<void> {
       process.exit(1);
     }
 
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (API_TOKEN) {
+      headers.Authorization = `Bearer ${API_TOKEN}`;
+    }
+
     // Call the backend API
     const response = await fetch(`${BASE_URL}/shorten`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${API_TOKEN}`,
-      },
+      headers,
       body: JSON.stringify({ url }),
     });
 
@@ -55,7 +57,7 @@ if (args[0] === 'config') {
 if (args.length === 0 || !args[0]) {
   console.log('Usage:');
   console.log('  murl "<url>"    Shorten a URL (use quotes for URLs with special characters)');
-  console.log('  murl config     Configure API token and base URL');
+  console.log('  murl config     Configure API token (optional) and base URL');
   process.exit(1);
 }
 
