@@ -60,3 +60,7 @@ export async function runConfigWizard() {
 
   console.log(`\n✓ Configuration saved to: ${config.path}`);
 }
+
+if (import.meta.main) {
+  await runConfigWizard();
+}

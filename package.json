@@ -10,6 +10,10 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "dev:service": "turbo run dev --filter=murl-service",
+    "dev:web": "turbo run dev --filter=murl-web-client",
+    "dev:cli": "bun run --cwd packages/cli-client index.ts",
+    "config:cli": "bun run --cwd packages/cli-client config.ts",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "fmt": "turbo run fmt"
