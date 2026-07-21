@@ -1,4 +1,4 @@
-import { getConfig, hasConfig, runConfigWizard } from './config';
+import { getConfig, hasConfig, printConfig, runConfigWizard } from './config';
 
 async function shortenUrl(url: string): Promise<void> {
   if (!hasConfig()) {
@@ -56,6 +56,16 @@ async function shortenUrl(url: string): Promise<void> {
 const args = process.argv.slice(2);
 
 if (args[0] === 'config') {
+  if (args[1] === 'show') {
+    printConfig();
+    process.exit(0);
+  }
+
+  if (args[1]) {
+    console.error(`Error: Unknown config subcommand: ${args[1]}`);
+    process.exit(1);
+  }
+
   await runConfigWizard();
   process.exit(0);
 }
@@ -64,6 +74,7 @@ if (args.length === 0 || !args[0]) {
   console.log('Usage:');
   console.log('  murl "<url>"    Shorten a URL (use quotes for URLs with special characters)');
   console.log('  murl config     Configure API token (optional) and base URL');
+  console.log('  murl config show  Print the current configuration');
   process.exit(1);
 }
 

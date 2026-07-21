@@ -16,6 +16,9 @@ Requires Node.js 20 or newer.
 # configure your API token (optional) and service base URL (first run prompts automatically)
 murl config
 
+# print the current configuration without editing it
+murl config show
+
 # shorten a URL — prints the short URL to stdout
 murl "https://example.com/some/very/long/url"
 ```

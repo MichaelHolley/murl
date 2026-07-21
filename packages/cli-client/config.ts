@@ -33,6 +33,29 @@ export function getConfigPath(): string {
   return config.path;
 }
 
+function maskToken(token: string): string {
+  if (token.length <= 4) {
+    return '*'.repeat(token.length);
+  }
+  return `${'*'.repeat(token.length - 4)}${token.slice(-4)}`;
+}
+
+export function printConfig(): void {
+  const path = getConfigPath();
+
+  if (!hasConfig()) {
+    console.log(`No configuration found at: ${path}`);
+    return;
+  }
+
+  const { token, baseUrl } = getConfig();
+
+  console.log('\n--- murl configuration ---\n');
+  console.log(`Base URL: ${baseUrl}`);
+  console.log(`API token: ${token ? maskToken(token) : '(not set)'}`);
+  console.log(`\nConfig file: ${path}`);
+}
+
 export async function runConfigWizard() {
   console.log('\n--- murl configuration ---\n');
 
