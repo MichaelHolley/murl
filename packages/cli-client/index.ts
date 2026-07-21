@@ -16,19 +16,27 @@ async function shortenUrl(url: string): Promise<void> {
       process.exit(1);
     }
 
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (API_TOKEN) {
+      headers.Authorization = `Bearer ${API_TOKEN}`;
+    }
+
     // Call the backend API
     const response = await fetch(`${BASE_URL}/shorten`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${API_TOKEN}`,
-      },
+      headers,
       body: JSON.stringify({ url }),
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      console.error(`Error: Failed to shorten URL - ${JSON.stringify(error)}`);
+      const body = await response.text();
+      let message = body || `HTTP ${response.status}${response.statusText ? ` ${response.statusText}` : ''}`;
+      try {
+        message = JSON.stringify(JSON.parse(body));
+      } catch {
+        // Body wasn't JSON (e.g. a plain-text 401 from the auth middleware); use it as-is.
+      }
+      console.error(`Error: Failed to shorten URL - ${message}`);
       process.exit(1);
     }
 
@@ -55,7 +63,7 @@ if (args[0] === 'config') {
 if (args.length === 0 || !args[0]) {
   console.log('Usage:');
   console.log('  murl "<url>"    Shorten a URL (use quotes for URLs with special characters)');
-  console.log('  murl config     Configure API token and base URL');
+  console.log('  murl config     Configure API token (optional) and base URL');
   process.exit(1);
 }
 
