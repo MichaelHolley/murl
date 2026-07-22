@@ -14,6 +14,9 @@
     "dev:web": "turbo run dev --filter=murl-web-client",
     "dev:cli": "bun run --cwd packages/cli-client index.ts",
     "config:cli": "bun run --cwd packages/cli-client config.ts",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "fmt": "turbo run fmt"

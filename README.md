@@ -10,11 +10,11 @@ A self-hosted, lightweight URL shortening system designed for efficiency and eas
 
 ## Key Technologies
 
-- **[Bun](https://bun.sh/)**: Runtime, package manager, and SQLite driver.
+- **[Bun](https://bun.sh/)**: Runtime, package manager, and SQL driver.
 - **[Hono](https://hono.dev/)**: Fast web framework for the API.
 - **[SolidJS](https://www.solidjs.com/)**: Reactive UI library for the web client.
 - **[Vite](https://vitejs.dev/)**: Next-generation frontend tooling.
-- **SQLite**: Lightweight database for URL mappings.
+- **PostgreSQL**: Database for URL mappings.
 - **Nanoid**: Short, unique, and URL-friendly identifiers.
 - **TypeScript**: Type-safe development.
 
@@ -66,14 +66,19 @@ cd packages/web-client
 bun dev
 ```
 
+### Running with Docker
+
+Runs the database, API and web client together:
+
+```bash
+cp .env.example .env
+docker compose up -d --build
+```
+
+Web UI on <http://localhost:4000>, API on <http://localhost:3000>.
+See [docs/docker.md](docs/docker.md) for configuration, networking, volumes and
+deployment notes.
+
 ---
 
 Built with Bun.
-
-## Service Build
-
-using docker
-
-```bash
-docker build --platform linux/amd64 -t mpholley/murl-service:latest .
-```

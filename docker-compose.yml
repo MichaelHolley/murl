@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - murl-postgres-data:/var/lib/postgresql/data
+    # Uncomment only to inspect the database from the host.
+    # ports:
+    #   - "5432:5432"
+    healthcheck:
+      # $$ escapes interpolation so the variables resolve inside the container
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  service:
+    build:
+      context: .
+      dockerfile: packages/service/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        # src/db.ts connects and issues DDL at import time, so the process exits
+        # if Postgres is not accepting connections yet.
+        condition: service_healthy
+    environment:
+      # `postgres` is the Compose DNS name; 5432 is the container port. No
+      # sslmode=require — the stock postgres image serves plaintext.
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      API_TOKEN: ${API_TOKEN:-}
+      API_TOKEN_MIDDLEWARE_ENABLED: ${API_TOKEN_MIDDLEWARE_ENABLED:-true}
+      BASE_URL: ${BASE_URL:-http://localhost:3000}
+      ALLOWED_ORIGIN: ${ALLOWED_ORIGIN:-http://localhost:4000}
+    ports:
+      - '${SERVICE_PORT:-3000}:3000'
+
+  web-client:
+    build:
+      context: .
+      dockerfile: packages/web-client/Dockerfile
+      args:
+        # Build time only — see packages/web-client/Dockerfile
+        VITE_SERVICE_URL: ${VITE_SERVICE_URL:-http://localhost:3000}
+    restart: unless-stopped
+    depends_on:
+      service:
+        condition: service_healthy
+    ports:
+      - '${WEB_PORT:-4000}:80'
+
+volumes:
+  murl-postgres-data:

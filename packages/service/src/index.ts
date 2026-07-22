@@ -59,6 +59,9 @@ app.post('/shorten', async (c) => {
   return c.json({ code, shortUrl: `${BASE_URL}/${code}` });
 });
 
+// Registered before /:code, which would otherwise swallow it
+app.get('/health', (c) => c.json({ status: 'ok' }));
+
 app.get('/:code', async (c) => {
   const code = c.req.param('code');
   const result = await getUrlByCode(code);

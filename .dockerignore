@@ -1,0 +1,51 @@
+# Build context is the repo root (bun.lock is a workspace lockfile and only
+# exists here), so everything below would otherwise be shipped to the daemon.
+
+# Host node_modules contain platform-native binaries (oxlint, turbo, rollup,
+# tailwind oxide). Leaking darwin-arm64 builds into a linux image breaks `vite build`.
+node_modules
+**/node_modules
+
+# Build output — always rebuilt inside the image
+dist
+**/dist
+bin
+**/bin
+.turbo
+**/.turbo
+*.tsbuildinfo
+**/*.tsbuildinfo
+
+# Secrets. Bun auto-loads .env from cwd, which would silently shadow the
+# environment Compose injects.
+.env
+**/.env
+.env.*
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Leftover local database artifact
+**/*.sqlite
+
+.git
+.gitignore
+.github
+.vscode
+.DS_Store
+**/.DS_Store
+
+Dockerfile
+**/Dockerfile
+.dockerignore
+docker-compose*.yml
+
+docs
+README.md
+**/README.md
+LICENSE
+**/LICENSE
+install.sh
+coverage
+*.lcov
+*.tgz
