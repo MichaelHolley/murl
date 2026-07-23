@@ -1,79 +1,44 @@
-# murl
+<h1 align="center">murl</h1>
 
-A self-hosted, lightweight URL shortening system designed for efficiency and ease of use.
+<p align="center">
+  Your own URL shortener. Self-hosted, fast, and lightweight.
+</p>
 
-## Project Structure
-
-- `packages/service/` (`murl-service`): The backend API handling storage and redirection logic.
-- `packages/cli-client/` ([`murl-cli`](https://www.npmjs.com/package/murl-cli)): A companion CLI tool for interacting with the service, published to npm.
-- `packages/web-client/` (`murl-web-client`): A lightweight SolidJS-powered web interface.
-
-## Key Technologies
-
-- **[Bun](https://bun.sh/)**: Runtime, package manager, and SQLite driver.
-- **[Hono](https://hono.dev/)**: Fast web framework for the API.
-- **[SolidJS](https://www.solidjs.com/)**: Reactive UI library for the web client.
-- **[Vite](https://vitejs.dev/)**: Next-generation frontend tooling.
-- **SQLite**: Lightweight database for URL mappings.
-- **Nanoid**: Short, unique, and URL-friendly identifiers.
-- **TypeScript**: Type-safe development.
-
-## Main Features
-
-- **Efficient URL Shortening**: Generate 6-character short codes.
-- **CLI Interaction**: Shorten URLs directly from your terminal.
-- **Web Interface**: Simple and fast dashboard to manage URLs.
-- **Secure API**: Protected by Bearer token authentication.
-- **Fast Redirection**: Immediate redirects.
-- **Configuration Wizard**: Easy CLI setup (`murl config`).
-
-## Getting Started
-
-### Installation
-
-```bash
-bun install
-```
-
-### Running the Service
-
-```bash
-cd packages/service
-bun dev
-```
-
-### Using the CLI
-
-Install globally via npm:
-
-```bash
-npm install -g murl-cli
-murl "<url>"
-murl config
-```
-
-Or run from source during development:
-
-```bash
-cd packages/cli-client
-bun run index.ts <url>
-```
-
-### Running the Web Client
-
-```bash
-cd packages/web-client
-bun dev
-```
+<p align="center">
+  <a href="https://www.npmjs.com/package/murl-cli"><img alt="npm" src="https://img.shields.io/npm/v/murl-cli?label=murl-cli"></a>
+  <a href="LICENSE"><img alt="license" src="https://img.shields.io/badge/license-MIT-blue"></a>
+</p>
 
 ---
 
-Built with Bun.
+murl lets you turn long, ugly links into short ones you control — no third-party service, no tracking, no limits. Run it on your own hardware and shorten from the terminal or a clean web dashboard.
 
-## Service Build
+## Features
 
-using docker
+- 🔗 **Short, shareable links** — clean 6-character codes for any URL.
+- 🖥️ **Shorten from your terminal** — one command, instant short link, ready to paste.
+- 🌐 **Simple web dashboard** — shorten and manage links in the browser, no setup required.
+- 🏠 **Fully self-hosted** — your links, your server, your data. Nothing leaves your infrastructure.
+- ⚡ **Instant redirects** — visitors land on the real page with no delay.
+- 🔒 **Private by default** — protect link creation with a token, or run it open for personal use.
+
+## Get started
+
+Shorten your first link in seconds with the CLI:
 
 ```bash
-docker build --platform linux/amd64 -t mpholley/murl-service:latest .
+npm install -g murl-cli
+murl config
+murl "https://example.com/some/very/long/url"
 ```
+
+Want to run the whole thing yourself? See the docs below.
+
+## Documentation
+
+- [Development](docs/development.md) — monorepo setup and scripts.
+- [Packages](docs/packages.md) — the service, CLI, and web client in detail.
+
+## License
+
+[MIT](LICENSE)
