@@ -4,11 +4,7 @@ Docker Compose runs the web client, service, and Postgres database together. The
 
 ## Setup
 
-Copy the example environment file and replace both placeholder secrets:
-
-```bash
-cp .env.example .env
-```
+Edit `docker-compose.yml` and replace the database password and API token placeholders. The database password must match in `POSTGRES_PASSWORD` and `DATABASE_URL`.
 
 Start the stack:
 
@@ -22,17 +18,17 @@ Stop the containers with `docker compose down`. Add `--volumes` to also delete t
 
 ## Configuration
 
-| Variable | Default | Description |
+| Compose value | Default | Description |
 | --- | --- | --- |
-| `POSTGRES_PASSWORD` | required | Password for the Compose-managed Postgres user. |
-| `API_TOKEN` | — | Bearer token for creating short URLs. Required when authentication is enabled. |
+| `POSTGRES_PASSWORD` | placeholder | Password for the Compose-managed Postgres user. |
+| `API_TOKEN` | placeholder | Bearer token for creating short URLs. Required when authentication is enabled. |
 | `API_TOKEN_MIDDLEWARE_ENABLED` | `true` | Set to `false` to allow unauthenticated URL creation. |
 | `BASE_URL` | `http://localhost:3000` | Public service URL used by the client and in generated short URLs. |
-| `CLIENT_URL` | `http://localhost:8080` | Public client URL allowed by CORS. |
-| `SERVICE_PORT` | `3000` | Host port mapped to the service. |
-| `CLIENT_PORT` | `8080` | Host port mapped to the client. |
+| `ALLOWED_ORIGIN` | `http://localhost:8080` | Public client URL allowed by CORS. |
+| Service port | `3000` | Host port mapped to the service. |
+| Client port | `8080` | Host port mapped to the client. |
 
-`BASE_URL` and `CLIENT_URL` must be browser-accessible public URLs, not Compose service names. Because the client is a static build, changing `BASE_URL` requires rebuilding its image with `docker compose up --build -d`.
+`BASE_URL`, `ALLOWED_ORIGIN`, and `VITE_SERVICE_URL` must be browser-accessible public URLs, not Compose service names. Set `BASE_URL` and `VITE_SERVICE_URL` to the same service URL. Because the client is a static build, changing `VITE_SERVICE_URL` requires rebuilding its image with `docker compose up --build -d`.
 
 Postgres data is stored in the `database-data` Docker volume. The database is only available to the other Compose services and is not published on the host.
 

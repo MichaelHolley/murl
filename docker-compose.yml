@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_DB: murl
       POSTGRES_USER: murl
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_PASSWORD: replace-with-database-password
     volumes:
       - database-data:/var/lib/postgresql/data
     healthcheck:
@@ -18,13 +18,13 @@ services:
     build: ./packages/service
     restart: unless-stopped
     environment:
-      DATABASE_URL: postgres://murl:${POSTGRES_PASSWORD}@database:5432/murl
-      ALLOWED_ORIGIN: ${CLIENT_URL:-http://localhost:8080}
-      API_TOKEN: ${API_TOKEN:-}
-      API_TOKEN_MIDDLEWARE_ENABLED: ${API_TOKEN_MIDDLEWARE_ENABLED:-true}
-      BASE_URL: ${BASE_URL:-http://localhost:3000}
+      DATABASE_URL: postgres://murl:replace-with-database-password@database:5432/murl
+      ALLOWED_ORIGIN: http://localhost:8080
+      API_TOKEN: replace-with-api-token
+      API_TOKEN_MIDDLEWARE_ENABLED: "true"
+      BASE_URL: http://localhost:3000
     ports:
-      - "${SERVICE_PORT:-3000}:3000"
+      - "3000:3000"
     depends_on:
       database:
         condition: service_healthy
@@ -33,10 +33,10 @@ services:
     build:
       context: ./packages/web-client
       args:
-        VITE_SERVICE_URL: ${BASE_URL:-http://localhost:3000}
+        VITE_SERVICE_URL: http://localhost:3000
     restart: unless-stopped
     ports:
-      - "${CLIENT_PORT:-8080}:80"
+      - "8080:80"
     depends_on:
       - service
 
