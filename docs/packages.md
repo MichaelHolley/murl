@@ -35,8 +35,10 @@ bun dev
 ### Deploy with Docker
 
 ```bash
-docker build --platform linux/amd64 -t mpholley/murl-service:latest .
+docker build -t murl-service packages/service
 ```
+
+See [Docker hosting](docker.md) to run the service with the web client and Postgres.
 
 ## CLI (`murl-cli`)
 
@@ -92,3 +94,10 @@ bun run serve      # preview the build
 ```
 
 Deploy the `dist/` folder to any static host (Netlify, Vercel, etc.).
+
+To build its standalone image from the repository root:
+
+```bash
+docker build --build-arg VITE_SERVICE_URL=https://murl-api.example.com \
+  -t murl-client packages/web-client
+```

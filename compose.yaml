@@ -1,0 +1,44 @@
+services:
+  database:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: murl
+      POSTGRES_USER: murl
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U murl -d murl"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  service:
+    build: ./packages/service
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://murl:${POSTGRES_PASSWORD}@database:5432/murl
+      ALLOWED_ORIGIN: ${CLIENT_URL:-http://localhost:8080}
+      API_TOKEN: ${API_TOKEN:-}
+      API_TOKEN_MIDDLEWARE_ENABLED: ${API_TOKEN_MIDDLEWARE_ENABLED:-true}
+      BASE_URL: ${BASE_URL:-http://localhost:3000}
+    ports:
+      - "${SERVICE_PORT:-3000}:3000"
+    depends_on:
+      database:
+        condition: service_healthy
+
+  client:
+    build:
+      context: ./packages/web-client
+      args:
+        VITE_SERVICE_URL: ${BASE_URL:-http://localhost:3000}
+    restart: unless-stopped
+    ports:
+      - "${CLIENT_PORT:-8080}:80"
+    depends_on:
+      - service
+
+volumes:
+  database-data:
