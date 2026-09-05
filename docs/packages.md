@@ -35,7 +35,7 @@ bun dev
 ### Deploy with Docker
 
 ```bash
-docker build -t murl-service packages/service
+docker build -f packages/service/Dockerfile -t murl-service .
 ```
 
 See [Docker hosting](docker.md) to run the service with the web client and Postgres.
@@ -98,7 +98,7 @@ Deploy the `dist/` folder to any static host (Netlify, Vercel, etc.).
 To build its standalone image from the repository root:
 
 ```bash
-docker build -t murl-web-client packages/web-client
+docker build -f packages/web-client/Dockerfile -t murl-web-client .
 ```
 
-The image expects a Compose service named `service` and proxies `/api` requests to it.
+The image serves the built client and proxies `/api` to `MURL_SERVICE_URL`, which defaults to `http://service:3000` for Compose.

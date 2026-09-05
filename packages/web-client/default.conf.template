@@ -1,0 +1,17 @@
+server {
+  listen 80;
+  root /usr/share/nginx/html;
+
+  location /api/ {
+    # Resolve the upstream per request so the container starts without it and
+    # survives the service getting a new address.
+    resolver ${NGINX_LOCAL_RESOLVERS} valid=10s;
+    set $upstream ${MURL_SERVICE_URL};
+    rewrite ^/api/(.*)$ /$1 break;
+    proxy_pass $upstream;
+  }
+
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}

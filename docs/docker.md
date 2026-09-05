@@ -1,6 +1,6 @@
 # Docker hosting
 
-Docker Compose runs the web client, service, and Postgres database together using images published to GitHub Container Registry.
+Docker Compose runs the web client, service, and Postgres database together using images published to GitHub Container Registry. Add `--build` to any `docker compose` command to build them from source instead.
 
 ## Setup
 
@@ -25,6 +25,7 @@ Stop the containers with `docker compose down`. Add `--volumes` to also delete t
 | `API_TOKEN_MIDDLEWARE_ENABLED` | `true` | Set to `false` to allow unauthenticated URL creation. |
 | `BASE_URL` | `http://localhost:3000` | Public service URL used in generated short URLs. |
 | `ALLOWED_ORIGIN` | `http://localhost:8080` | Public client URL allowed by CORS. |
+| `MURL_SERVICE_URL` | `http://service:3000` | Upstream the client's nginx proxies `/api` to. |
 | Service port | `3000` | Host port mapped to the service. |
 | Client port | `8080` | Host port mapped to the client. |
 
@@ -36,11 +37,11 @@ For internet-facing deployments, use HTTPS URLs and place a TLS-terminating reve
 
 ## Build individual images
 
-Each image uses only its package as build context:
+Both images build from the repository root so they can install against the workspace lockfile:
 
 ```bash
-docker build -t murl-service packages/service
-docker build -t murl-web-client packages/web-client
+docker build -f packages/service/Dockerfile -t murl-service .
+docker build -f packages/web-client/Dockerfile -t murl-web-client .
 ```
 
-The service image requires the environment variables documented in [packages.md](packages.md#environment) when run outside Compose. The client image serves static files on port 80.
+The service image requires the environment variables documented in [packages.md](packages.md#environment) when run outside Compose. The client image serves static files on port 80 and proxies `/api` to `MURL_SERVICE_URL`; set that variable to point it at a service outside Compose.
