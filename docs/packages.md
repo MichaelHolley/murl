@@ -82,7 +82,7 @@ A lightweight [SolidJS](https://www.solidjs.com/) + [Vite](https://vitejs.dev/) 
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `VITE_SERVICE_URL` | `http://localhost:3000` | Base URL of the murl service. |
+| `VITE_SERVICE_URL` | `/api` | Base URL of the murl service for static deployments outside Docker. |
 
 ### Run
 
@@ -98,6 +98,7 @@ Deploy the `dist/` folder to any static host (Netlify, Vercel, etc.).
 To build its standalone image from the repository root:
 
 ```bash
-docker build --build-arg VITE_SERVICE_URL=https://murl-api.example.com \
-  -t murl-client packages/web-client
+docker build -t murl-web-client packages/web-client
 ```
+
+The image expects a Compose service named `service` and proxies `/api` requests to it.
