@@ -37,6 +37,7 @@ Want to run the whole thing yourself? See the docs below.
 ## Documentation
 
 - [Development](docs/development.md) — monorepo setup and scripts.
+- [Docker hosting](docs/docker.md) — run the murl service with Postgres.
 - [Packages](docs/packages.md) — the service, CLI, and web client in detail.
 
 ## License

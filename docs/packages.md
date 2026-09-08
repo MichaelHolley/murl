@@ -35,8 +35,10 @@ bun dev
 ### Deploy with Docker
 
 ```bash
-docker build --platform linux/amd64 -t mpholley/murl-service:latest .
+docker build -f packages/service/Dockerfile -t murl-service .
 ```
+
+See [Docker hosting](docker.md) to run the service with Postgres.
 
 ## CLI (`murl-cli`)
 
@@ -80,7 +82,7 @@ A lightweight [SolidJS](https://www.solidjs.com/) + [Vite](https://vitejs.dev/) 
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `VITE_SERVICE_URL` | `http://localhost:3000` | Base URL of the murl service. |
+| `VITE_SERVICE_URL` | `/api` | Base URL of the murl service. |
 
 ### Run
 

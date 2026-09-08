@@ -1,0 +1,36 @@
+services:
+  database:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: murl
+      POSTGRES_USER: murl
+      POSTGRES_PASSWORD: replace-with-database-password
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U murl -d murl"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  service:
+    image: mpholley/murl-service:latest
+    build:
+      context: .
+      dockerfile: packages/service/Dockerfile
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://murl:replace-with-database-password@database:5432/murl
+      ALLOWED_ORIGIN: replace-with-client-origin
+      API_TOKEN: replace-with-api-token
+      API_TOKEN_MIDDLEWARE_ENABLED: "true"
+      BASE_URL: http://localhost:3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      database:
+        condition: service_healthy
+
+volumes:
+  database-data:
