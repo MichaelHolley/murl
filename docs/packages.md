@@ -38,7 +38,7 @@ bun dev
 docker build -f packages/service/Dockerfile -t murl-service .
 ```
 
-See [Docker hosting](docker.md) to run the service with the web client and Postgres.
+See [Docker hosting](docker.md) to run the service with Postgres.
 
 ## CLI (`murl-cli`)
 
@@ -82,7 +82,7 @@ A lightweight [SolidJS](https://www.solidjs.com/) + [Vite](https://vitejs.dev/) 
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `VITE_SERVICE_URL` | `/api` | Base URL of the murl service for static deployments outside Docker. |
+| `VITE_SERVICE_URL` | `/api` | Base URL of the murl service. |
 
 ### Run
 
@@ -94,11 +94,3 @@ bun run serve      # preview the build
 ```
 
 Deploy the `dist/` folder to any static host (Netlify, Vercel, etc.).
-
-To build its standalone image from the repository root:
-
-```bash
-docker build -f packages/web-client/Dockerfile -t murl-web-client .
-```
-
-The image serves the built client and proxies `/api` to `MURL_SERVICE_URL`, which defaults to `http://service:3000` for Compose.

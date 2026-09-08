@@ -7,29 +7,19 @@ on:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - image: ghcr.io/michaelholley/murl-service
-            dockerfile: packages/service/Dockerfile
-          - image: ghcr.io/michaelholley/murl-web-client
-            dockerfile: packages/web-client/Dockerfile
     steps:
       - uses: actions/checkout@v4
       - uses: docker/login-action@v3
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: docker/build-push-action@v6
         with:
           context: .
-          file: ${{ matrix.dockerfile }}
+          file: packages/service/Dockerfile
           push: true
-          tags: ${{ matrix.image }}:latest
-          labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
+          tags: mpholley/murl-service:latest

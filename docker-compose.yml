@@ -15,14 +15,14 @@ services:
       retries: 10
 
   service:
-    image: ghcr.io/michaelholley/murl-service:latest
+    image: mpholley/murl-service:latest
     build:
       context: .
       dockerfile: packages/service/Dockerfile
     restart: unless-stopped
     environment:
       DATABASE_URL: postgres://murl:replace-with-database-password@database:5432/murl
-      ALLOWED_ORIGIN: http://localhost:8080
+      ALLOWED_ORIGIN: replace-with-client-origin
       API_TOKEN: replace-with-api-token
       API_TOKEN_MIDDLEWARE_ENABLED: "true"
       BASE_URL: http://localhost:3000
@@ -31,17 +31,6 @@ services:
     depends_on:
       database:
         condition: service_healthy
-
-  client:
-    image: ghcr.io/michaelholley/murl-web-client:latest
-    build:
-      context: .
-      dockerfile: packages/web-client/Dockerfile
-    restart: unless-stopped
-    ports:
-      - "8080:80"
-    depends_on:
-      - service
 
 volumes:
   database-data:
